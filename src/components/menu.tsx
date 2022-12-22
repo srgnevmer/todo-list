@@ -6,7 +6,7 @@ import { Link as ILink, IconId, ThemeContext as IThemeContext } from "../types";
 import { getUniqueId } from "../utils";
 import { showMenu, closeMenu } from "../redux/slices/menu-slice";
 import { useAppDispatch, useAppSelector } from "../redux/typed-hooks";
-import { ThemeContext } from "../context/theme-context";
+import { ThemeContext } from "../context";
 
 export const Menu: FC = () => {
   const dispatch = useAppDispatch();
