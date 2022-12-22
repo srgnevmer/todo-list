@@ -19,3 +19,8 @@ export type Theme = "light" | "dark";
 export interface ThemeContext {
   setThemeMode: () => void;
 }
+
+export interface ModalContext {
+  content: JSX.Element | null;
+  addContentToModal: (content: JSX.Element) => void;
+}
