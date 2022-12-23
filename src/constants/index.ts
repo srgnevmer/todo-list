@@ -14,6 +14,8 @@ export const MAX_LENGTH_UNIQUE_ID: number = 14;
 
 export const MIN_WINDOW_WIDTH: number = 1024;
 
+export const ESCAPE: string = "Escape";
+
 export const REPOSITORY_LINK: string = "https://github.com/srgnevmer/todo-list";
 
 const NUMBERS: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
