@@ -15,7 +15,7 @@ export const Button: FC<ButtonProps> = memo(({ text, color, onClick }) => {
       className={`${color}
       px-5 py-2 rounded-md
       text-2xl font-semibold text-white 
-      transition-colors duration-100`}
+      transition-colors duration-100 select-none`}
     >
       {text}
     </button>
