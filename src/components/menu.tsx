@@ -93,7 +93,7 @@ export const Menu: FC = () => {
             >
               <div
                 className="flex justify-center items-center w-12 h-12 rounded-xl
-            bg-blue-700 group-hover:bg-blue-600 transition-colors duration-100"
+                bg-blue-700 group-hover:bg-blue-600 transition-colors duration-100"
               >
                 <SvgSelector id="github" />
               </div>
