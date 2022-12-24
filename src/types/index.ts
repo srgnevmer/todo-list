@@ -12,7 +12,9 @@ export type IconId =
   | "bookmark-slash"
   | "sun"
   | "moon"
-  | "github";
+  | "github"
+  | "x-mark"
+  | "chevron-down";
 
 export type Theme = "light" | "dark";
 
