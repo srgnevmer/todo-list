@@ -1,10 +1,4 @@
-import { Link } from "../types";
-
-export const LINKS: Link[] = [
-  { to: "/", name: "All", iconName: "home" },
-  { to: "/active", name: "Active", iconName: "bookmark" },
-  { to: "/completed", name: "Completed", iconName: "bookmark-slash" },
-];
+import { Link, Priority, Category } from "../types";
 
 export const FIRST_HYPHEN_INDEX: number = 4;
 
@@ -50,3 +44,18 @@ const LETTERS: string[] = [
 ];
 
 export const CHARACTERS: (number[] | string[])[] = [NUMBERS, LETTERS];
+
+export const LINKS: Link[] = [
+  { to: "/", name: "all", iconName: "home" },
+  { to: "/active", name: "active", iconName: "bookmark" },
+  { to: "/completed", name: "completed", iconName: "bookmark-slash" },
+];
+
+export const PRIORITIES: Priority[] = ["low", "medium", "high"];
+
+export const CATEGORIES: Category[] = [
+  "chore",
+  "learning",
+  "mind care",
+  "body care",
+];
