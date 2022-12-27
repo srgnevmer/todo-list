@@ -5,3 +5,5 @@ export * from "./theme-switcher";
 export * from "./layout";
 export * from "./button";
 export * from "./modal";
+export * from "./input";
+export * from "./select";
