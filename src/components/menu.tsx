@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { SvgSelector, ThemeSwitcher } from "../components";
 import { LINKS, REPOSITORY_LINK } from "../constants";
 import { Link as ILink, IconId, ThemeContext as IThemeContext } from "../types";
-import { getUniqueId } from "../utils";
+import { getUniqueId, capitalizedFirstLetter } from "../utils";
 import { showMenu, closeMenu } from "../redux/slices/menu-slice";
 import { useAppDispatch, useAppSelector } from "../redux/typed-hooks";
 import { ThemeContext } from "../context";
@@ -55,7 +55,7 @@ export const Menu: FC = () => {
                   text-2xl font-bold text-neutral-900 dark:text-white 
                   group-hover:text-blue-600"
                   >
-                    {link.name}
+                    {capitalizedFirstLetter(link.name)}
                   </span>
                 )}
               </Link>
