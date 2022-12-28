@@ -4,7 +4,7 @@ import { ESCAPE } from "../constants";
 import { hideModal } from "../redux/slices/modal-slice";
 import { useAppDispatch } from "../redux/typed-hooks";
 
-const rootPortal: HTMLElement = document.getElementById("portal")!;
+const rootModal: HTMLElement = document.getElementById("modal")!;
 
 interface ModalProps {
   isOpen: boolean;
@@ -45,7 +45,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, children }) => {
       >
         {children}
       </div>,
-      rootPortal
+      rootModal
     );
   }
 
