@@ -6,7 +6,9 @@ export const Completed: FC = () => {
     <Layout>
       <>
         <Menu />
-        <Main />
+        <Main>
+          <div></div>
+        </Main>
       </>
     </Layout>
   );

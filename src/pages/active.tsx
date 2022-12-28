@@ -6,7 +6,9 @@ export const Active: FC = () => {
     <Layout>
       <>
         <Menu />
-        <Main />
+        <Main>
+          <div></div>
+        </Main>
       </>
     </Layout>
   );
