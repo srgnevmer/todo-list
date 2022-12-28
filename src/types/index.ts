@@ -1,4 +1,5 @@
 export type Theme = "light" | "dark";
+export type AlertType = "successe" | "error";
 export type Priority = "low" | "medium" | "high";
 export type Category = "chore" | "learning" | "mind care" | "body care";
 export type IconId =
@@ -9,7 +10,9 @@ export type IconId =
   | "bookmark-slash"
   | "sun"
   | "moon"
-  | "github";
+  | "github"
+  | "check"
+  | "exclamation";
 
 export interface Link {
   to: string;
@@ -24,4 +27,10 @@ export interface ThemeContext {
 export interface ModalContext {
   content: JSX.Element | null;
   addContentToModal: (content: JSX.Element) => void;
+}
+
+export interface AlertState {
+  isActive: boolean;
+  type: AlertType | null;
+  message: string;
 }
