@@ -3,6 +3,7 @@ import menuSlice from "./slices/menu-slice";
 import themeSlice from "./slices/theme-slice";
 import modalSlice from "./slices/modal-slice";
 import addTaskSlice from "./slices/add-task-slice";
+import alertSlice from "./slices/alert-slice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     theme: themeSlice,
     modal: modalSlice,
     addTask: addTaskSlice,
+    alert: alertSlice,
   },
 });
 
