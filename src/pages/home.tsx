@@ -1,14 +1,20 @@
 import { FC, useCallback, useContext } from "react";
-import { Layout, Menu, Main, Button, Modal } from "../components";
+import { Layout, Menu, Main, Button, Modal, Alert } from "../components";
+import { AddTask } from "../components/modal-content";
+import { AlertState } from "../types";
+import { ModalContext } from "../context";
 import { showModal } from "../redux/slices/modal-slice";
 import { useAppDispatch, useAppSelector } from "../redux/typed-hooks";
-import { ModalContext } from "../context";
-import { AddTask } from "../components/modal-content";
 
 export const Home: FC = () => {
   const dispatch = useAppDispatch();
   const { content, addContentToModal } = useContext(ModalContext)!;
   const isOpenModal = useAppSelector<boolean>((state) => state.modal.isActive);
+  const {
+    isActive: isOpenAlert,
+    type,
+    message,
+  } = useAppSelector<AlertState>((state) => state.alert);
 
   const openModal = useCallback(() => {
     dispatch(showModal());
@@ -18,6 +24,7 @@ export const Home: FC = () => {
   return (
     <Layout>
       <>
+        <Alert isOpen={isOpenAlert} type={type!} message={message} />
         <Modal isOpen={isOpenModal}>{content!}</Modal>
         <Menu />
         <Main>
