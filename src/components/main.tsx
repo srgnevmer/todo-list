@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { Button } from "./index";
 
 interface MainProps {
   children: JSX.Element;
