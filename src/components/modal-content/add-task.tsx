@@ -50,12 +50,20 @@ export const AddTask: FC = () => {
     dispatch(setTaskNameSlice(value));
   }, []);
 
-  const setPriority = useCallback((value: Priority): void => {
-    dispatch(setPrioritySlice(value));
+  // const setPriority = useCallback((value: Priority): void => {
+  //   dispatch(setPrioritySlice(value));
+  // }, []);
+
+  // const setCategory = useCallback((value: Category): void => {
+  //   dispatch(setCategorySlice(value));
+  // }, []);
+
+  const setPriority = useCallback(function <T>(value: T): void {
+    dispatch(setPrioritySlice(value as Priority));
   }, []);
 
-  const setCategory = useCallback((value: Category): void => {
-    dispatch(setCategorySlice(value));
+  const setCategory = useCallback(function <T>(value: T): void {
+    dispatch(setCategorySlice(value as Category));
   }, []);
 
   useEffect(() => {
@@ -76,6 +84,7 @@ export const AddTask: FC = () => {
       </div>
       <div className="flex flex-col w-full mb-3">
         <Select
+          type="priority"
           value={priority}
           options={PRIORITIES}
           onChange={setPriority}
@@ -84,6 +93,7 @@ export const AddTask: FC = () => {
       </div>
       <div className="flex flex-col w-full mb-3">
         <Select
+          type="category"
           value={category}
           options={CATEGORIES}
           onChange={setCategory}
