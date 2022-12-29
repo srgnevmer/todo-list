@@ -5,18 +5,23 @@ import { getUniqueId, capitalizedFirstLetter } from "../utils";
 type ValueType = "default" | Priority | Category;
 
 interface SelectProps {
+  type: "priority" | "category";
   value: ValueType;
   options: string[];
   placeholder: string;
-  onChange: (value: any) => void;
+  onChange: <T>(value: T) => void;
 }
 
 export const Select: FC<SelectProps> = memo(
-  ({ value, options, placeholder, onChange }) => {
+  ({ type, value, options, placeholder, onChange }) => {
     const [selectedValue, setSelectedValue] = useState<ValueType>(value);
 
     const handleChange = (event: ChangeEvent<HTMLSelectElement>): void => {
-      onChange(event.target.value);
+      if (type === "priority") {
+        onChange<Priority>(event.target.value as Priority);
+      } else {
+        onChange<Category>(event.target.value as Category);
+      }
     };
 
     useEffect(() => {
