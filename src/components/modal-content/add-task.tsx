@@ -56,14 +56,6 @@ export const AddTask: FC = () => {
     dispatch(setTaskNameSlice(value));
   }, []);
 
-  // const setPriority = useCallback((value: Priority): void => {
-  //   dispatch(setPrioritySlice(value));
-  // }, []);
-
-  // const setCategory = useCallback((value: Category): void => {
-  //   dispatch(setCategorySlice(value));
-  // }, []);
-
   const setPriority = useCallback(function <T>(value: T): void {
     dispatch(setPrioritySlice(value as Priority));
   }, []);
