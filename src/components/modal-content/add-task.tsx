@@ -1,4 +1,5 @@
 import { FC, useEffect, useCallback } from "react";
+import { animated, useSpring } from "@react-spring/web";
 import { Input, Select, Button } from "../index";
 import { PRIORITIES, CATEGORIES, DEFAULT } from "../../constants";
 import { Task } from "../../constructors";
@@ -23,6 +24,11 @@ export const AddTask: FC = () => {
     (state) => state.addTask.category
   );
   const isOpenAlert = useAppSelector<boolean>((state) => state.alert.isActive);
+
+  const style = useSpring({
+    from: { opacity: 0, transform: "translateY(-80px)" },
+    to: { opacity: 1, transform: "translateY(0px)" },
+  });
 
   const showErrorAlert = (): void => {
     dispatch(setType("error"));
@@ -71,7 +77,8 @@ export const AddTask: FC = () => {
   }, []);
 
   return (
-    <div
+    <animated.div
+      style={style}
       className="w-full max-w-lg flex flex-col rounded-lg
     bg-slate-200 dark:bg-slate-800 px-5 py-6"
     >
@@ -111,6 +118,6 @@ export const AddTask: FC = () => {
         </div>
         <Button text="Cancel" color="btn-error" onClick={closeModal} />
       </div>
-    </div>
+    </animated.div>
   );
 };
