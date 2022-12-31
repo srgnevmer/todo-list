@@ -10,7 +10,7 @@ export const MIN_WINDOW_WIDTH: number = 1024;
 
 export const ESCAPE: string = "Escape";
 
-export const DELAY_BEFORE_ALERT_CLOSE: number = 3000;
+export const DELAY_BEFORE_ALERT_CLOSE: number = 1800;
 
 export const DEFAULT: "default" = "default";
 
