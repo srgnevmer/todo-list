@@ -46,7 +46,7 @@ export const AddTask: FC = () => {
 
     const newTask = new Task(taskName, priority, category);
     console.log(newTask);
-  }, [isOpenAlert, taskName, priority, category]);
+  }, [taskName, priority, category]);
 
   const closeModal = useCallback((): void => {
     dispatch(hideModal());
