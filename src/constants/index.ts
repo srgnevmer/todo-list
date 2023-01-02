@@ -1,5 +1,7 @@
 import { Link, Priority, Category } from "../types";
 
+export const TASKS: "tasks" = "tasks";
+
 export const FIRST_HYPHEN_INDEX: number = 4;
 
 export const SECOND_HYPHEN_INDEX: number = 9;
