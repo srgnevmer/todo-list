@@ -1,9 +1,11 @@
 import { FC, useEffect, useCallback } from "react";
 import { animated, useSpring } from "@react-spring/web";
-import { Input, Select, Button } from "../index";
-import { PRIORITIES, CATEGORIES, DEFAULT } from "../../constants";
-import { Task } from "../../constructors";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase.config";
+import { getUniqueId } from "../../utils";
 import { Priority, Category } from "../../types";
+import { Input, Select, Button } from "../index";
+import { PRIORITIES, CATEGORIES, DEFAULT, TASKS } from "../../constants";
 import { hideModal } from "../../redux/slices/modal-slice";
 import { useAppDispatch, useAppSelector } from "../../redux/typed-hooks";
 import {
@@ -30,24 +32,6 @@ export const AddTask: FC = () => {
     to: { opacity: 1, transform: "translateY(0px)" },
   });
 
-  const showErrorAlert = (): void => {
-    dispatch(setType("error"));
-    dispatch(setMessage("Please fill in all fields"));
-    dispatch(showAlert());
-  };
-
-  const addTask = useCallback((): void => {
-    if (isOpenAlert) return;
-
-    if (!taskName || priority === DEFAULT || category === DEFAULT) {
-      showErrorAlert();
-      return;
-    }
-
-    const newTask = new Task(taskName, priority, category);
-    console.log(newTask);
-  }, [taskName, priority, category]);
-
   const closeModal = useCallback((): void => {
     dispatch(hideModal());
   }, []);
@@ -63,6 +47,31 @@ export const AddTask: FC = () => {
   const setCategory = useCallback(function <T>(value: T): void {
     dispatch(setCategorySlice(value as Category));
   }, []);
+
+  const showErrorAlert = (): void => {
+    dispatch(setType("error"));
+    dispatch(setMessage("Please fill in all fields"));
+    dispatch(showAlert());
+  };
+
+  const addTask = (): void => {
+    if (isOpenAlert) return;
+
+    if (!taskName || priority === DEFAULT || category === DEFAULT) {
+      showErrorAlert();
+      return;
+    }
+
+    const uniqueId: string = getUniqueId();
+    setDoc(doc(db, TASKS, uniqueId), {
+      id: uniqueId,
+      name: taskName,
+      priority,
+      category,
+    });
+
+    closeModal();
+  };
 
   useEffect(() => {
     dispatch(setDefaultState());
