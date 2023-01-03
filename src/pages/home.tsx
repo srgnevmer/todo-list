@@ -1,5 +1,13 @@
 import { FC, useCallback, useContext } from "react";
-import { Layout, Menu, Main, Button, Modal, Alert } from "../components";
+import {
+  Layout,
+  Menu,
+  Main,
+  Button,
+  Modal,
+  Alert,
+  TaskList,
+} from "../components";
 import { AddTask } from "../components/modal-content";
 import { AlertState } from "../types";
 import { ModalContext } from "../context";
@@ -28,8 +36,8 @@ export const Home: FC = () => {
         <Modal isOpen={isOpenModal}>{content!}</Modal>
         <Menu />
         <Main>
-          <div className="grow">
-            <div className="h-16 border-b-2 border-slate-400">
+          <div className="flex flex-col grow">
+            <div className="h-16 border-b-2 shrink-0 border-slate-400">
               <div className="w-80 h-full flex justify-around items-center">
                 <Button
                   text="Add a task"
@@ -39,6 +47,7 @@ export const Home: FC = () => {
                 <Button text="Delete all" color="btn-error" />
               </div>
             </div>
+            <TaskList />
           </div>
         </Main>
       </>
