@@ -12,7 +12,9 @@ export type IconId =
   | "moon"
   | "github"
   | "check"
-  | "exclamation";
+  | "exclamation"
+  | "ellipsis"
+  | "trash";
 
 export interface Link {
   to: string;
@@ -33,4 +35,13 @@ export interface AlertState {
   isActive: boolean;
   type: AlertType | null;
   message: string;
+}
+
+export interface Task {
+  id: string;
+  name: string;
+  priority: Priority;
+  category: Category;
+  isCompleted: boolean;
+  date: number;
 }
