@@ -1,11 +1,11 @@
 import { FC, useEffect, useCallback } from "react";
 import { animated, useSpring } from "@react-spring/web";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../../firebase.config";
 import { getUniqueId } from "../../utils";
-import { Priority, Category } from "../../types";
+import { Priority, Category, Task } from "../../types";
 import { Input, Select, Button } from "../index";
-import { PRIORITIES, CATEGORIES, DEFAULT, TASKS } from "../../constants";
+import { PRIORITIES, CATEGORIES, DEFAULT, TASKS, LIST } from "../../constants";
 import { hideModal } from "../../redux/slices/modal-slice";
 import { useAppDispatch, useAppSelector } from "../../redux/typed-hooks";
 import {
@@ -48,27 +48,39 @@ export const AddTask: FC = () => {
     dispatch(setCategorySlice(value as Category));
   }, []);
 
-  const showErrorAlert = (): void => {
+  const showNotification = (): void => {
     dispatch(setType("error"));
     dispatch(setMessage("Please fill in all fields"));
     dispatch(showAlert());
   };
 
-  const addTask = (): void => {
+  const addTask = async (): Promise<void> => {
     if (isOpenAlert) return;
 
     if (!taskName || priority === DEFAULT || category === DEFAULT) {
-      showErrorAlert();
+      showNotification();
       return;
     }
 
-    const uniqueId: string = getUniqueId();
-    setDoc(doc(db, TASKS, uniqueId), {
-      id: uniqueId,
+    const docRef = doc(db, TASKS, LIST);
+    const docSnap = await getDoc(docRef);
+
+    const task: Task = {
+      id: getUniqueId(),
       name: taskName,
       priority,
       category,
-    });
+      isCompleted: false,
+      date: new Date().getTime(),
+    };
+
+    if (docSnap.exists()) {
+      await updateDoc(docRef, {
+        list: arrayUnion(task),
+      });
+    } else {
+      setDoc(docRef, { list: [task] });
+    }
 
     closeModal();
   };
