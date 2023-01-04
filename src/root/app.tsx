@@ -6,7 +6,7 @@ import {
   ColorSchemeProvider,
 } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { Header } from "../ui";
+import { Layout, Header } from "../ui";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -35,9 +35,11 @@ export const App: FC = () => {
         withNormalizeCSS
         withGlobalStyles
       >
-        <div className={classes.container}>
-          <Header />
-        </div>
+        <Layout>
+          <div className={classes.container}>
+            <Header />
+          </div>
+        </Layout>
       </MantineProvider>
     </ColorSchemeProvider>
   );
