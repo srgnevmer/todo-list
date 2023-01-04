@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { createStyles } from "@mantine/core";
 import {
   ColorScheme,
