@@ -1,17 +1,10 @@
 import { FC } from "react";
+import { Text, Button } from "@mantine/core";
 import { useStyles } from "./styles";
-import { Text, Container, Button } from "@mantine/core";
+import { getCurrentDate } from "../../utils";
 
 export const Main: FC = () => {
   const { classes } = useStyles();
-
-  const getCurrentDate = (): string => {
-    const now: Date = new Date();
-    const day: string = String(now.getDate()).padStart(2, "0");
-    const month: string = String(now.getMonth() + 1).padStart(2, "0");
-    const year: number = now.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
 
   return (
     <div className={classes.container}>
