@@ -21,5 +21,5 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
     );
   }
 
-  return <div>{children}</div>;
+  return children;
 };
