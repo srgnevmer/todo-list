@@ -1,19 +1,12 @@
 import { FC } from "react";
-import { createStyles } from "@mantine/core";
+import { useStyles } from "./styles";
 import {
   ColorScheme,
   MantineProvider,
   ColorSchemeProvider,
 } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { Header } from "../ui";
-
-const useStyles = createStyles((theme) => ({
-  container: {
-    minHeight: "100vh",
-    backgroundColor: theme.colorScheme,
-  },
-}));
+import { Layout, Header, Main } from "../../ui";
 
 export const App: FC = () => {
   const { classes } = useStyles();
@@ -35,9 +28,12 @@ export const App: FC = () => {
         withNormalizeCSS
         withGlobalStyles
       >
-        <div className={classes.container}>
-          <Header />
-        </div>
+        <Layout>
+          <div className={classes.container}>
+            <Header />
+            <Main />
+          </div>
+        </Layout>
       </MantineProvider>
     </ColorSchemeProvider>
   );
