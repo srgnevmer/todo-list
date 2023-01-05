@@ -2,6 +2,7 @@ import { FC, useState, useContext, ChangeEvent } from "react";
 import { TextInput, Select, Button } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { v4 as uuidv4 } from "uuid";
+import { getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { useStyles } from "./styles";
 import {
   Task,
@@ -10,6 +11,7 @@ import {
   ModalContext as IModalContext,
 } from "../../../types";
 import { ModalContext } from "../../../context";
+import { TODOS_REF } from "../../../constants";
 
 export const AddTask: FC = () => {
   const { classes } = useStyles();
@@ -22,7 +24,7 @@ export const AddTask: FC = () => {
     setTaskName(event.target.value);
   };
 
-  const saveTask = (): void => {
+  const saveTask = async (): Promise<void> => {
     if (!taskName.trim() || !priority || !category) {
       showNotification({
         color: "red",
@@ -50,9 +52,18 @@ export const AddTask: FC = () => {
       category: category as Category,
     };
 
-    console.log(task);
+    const todosSnap = await getDoc(TODOS_REF);
+    if (todosSnap.exists()) {
+      updateDoc(TODOS_REF, {
+        tasks: arrayUnion(task),
+      });
+    } else {
+      setDoc(TODOS_REF, {
+        tasks: [task],
+      });
+    }
 
-    // closeModal();
+    closeModal?.();
   };
 
   return (
