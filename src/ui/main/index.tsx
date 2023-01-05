@@ -1,16 +1,19 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
+import { Text, Button } from "@mantine/core";
 import { useStyles } from "./styles";
-import { Text, Container, Button } from "@mantine/core";
+import { getCurrentDate } from "../../utils";
+import { AddTask } from "../modal-content";
+import { ModalContext } from "../../context";
+import { ModalContext as IModalContext } from "../../types";
 
 export const Main: FC = () => {
   const { classes } = useStyles();
+  const { openModal, setContentToModal } =
+    useContext<Partial<IModalContext>>(ModalContext);
 
-  const getCurrentDate = (): string => {
-    const now: Date = new Date();
-    const day: string = String(now.getDate()).padStart(2, "0");
-    const month: string = String(now.getMonth() + 1).padStart(2, "0");
-    const year: number = now.getFullYear();
-    return `${day}/${month}/${year}`;
+  const showModal = (): void => {
+    setContentToModal?.(<AddTask />);
+    openModal?.();
   };
 
   return (
@@ -26,10 +29,10 @@ export const Main: FC = () => {
       <div className={classes.main}>
         <div className={classes.sectionOne}>
           <div className={classes.buttons}>
-            <Button color="green" size="md" uppercase>
+            <Button uppercase color="green" size="md" onClick={showModal}>
               add task
             </Button>
-            <Button color="red" size="md" uppercase>
+            <Button uppercase color="red" size="md">
               delete all
             </Button>
           </div>
