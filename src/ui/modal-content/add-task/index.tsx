@@ -1,19 +1,22 @@
-import { FC, useState, ChangeEvent } from "react";
+import { FC, useState, useContext, ChangeEvent } from "react";
 import { TextInput, Select, Button } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { v4 as uuidv4 } from "uuid";
 import { useStyles } from "./styles";
-import { Priority, Category, Task } from "../../../types";
+import {
+  Task,
+  Priority,
+  Category,
+  ModalContext as IModalContext,
+} from "../../../types";
+import { ModalContext } from "../../../context";
 
-interface AddTaskProps {
-  closeModal: () => void;
-}
-
-export const AddTask: FC<AddTaskProps> = ({ closeModal }) => {
+export const AddTask: FC = () => {
   const { classes } = useStyles();
   const [taskName, setTaskName] = useState<string>("");
   const [priority, setPriority] = useState<string | null>(null);
   const [category, setCategory] = useState<string | null>(null);
+  const { closeModal } = useContext<Partial<IModalContext>>(ModalContext);
 
   const setName = (event: ChangeEvent<HTMLInputElement>): void => {
     setTaskName(event.target.value);
@@ -49,7 +52,7 @@ export const AddTask: FC<AddTaskProps> = ({ closeModal }) => {
 
     console.log(task);
 
-    closeModal();
+    // closeModal();
   };
 
   return (
