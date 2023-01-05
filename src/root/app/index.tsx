@@ -1,51 +1,38 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
+import { Modal, useMantineTheme } from "@mantine/core";
 import { useStyles } from "./styles";
-import {
-  ColorScheme,
-  MantineProvider,
-  ColorSchemeProvider,
-} from "@mantine/core";
-import { NotificationsProvider } from "@mantine/notifications";
-import { useLocalStorage } from "@mantine/hooks";
-import { Layout, Header, Main } from "../../ui";
-import {
-  MAX_NUMBER_OF_NOTICE,
-  TIME_BEFORE_NOTICE_CLOSES,
-} from "../../constants";
+import { Header, Main } from "../../ui";
+import { ModalContext } from "../../context";
+import { ModalContext as IModalContext } from "../../types";
 
 export const App: FC = () => {
+  const theme = useMantineTheme();
   const { classes } = useStyles();
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: "mantine-color-scheme",
-    defaultValue: "light",
-  });
-
-  const toggleColorScheme = (value?: ColorScheme) =>
-    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+  const { content, isOpenModal, closeModal } =
+    useContext<Partial<IModalContext>>(ModalContext);
 
   return (
-    <ColorSchemeProvider
-      colorScheme={colorScheme}
-      toggleColorScheme={toggleColorScheme}
-    >
-      <MantineProvider
-        theme={{ colorScheme }}
-        withNormalizeCSS
-        withGlobalStyles
+    <>
+      <Modal
+        centered
+        radius="md"
+        opened={isOpenModal!}
+        onClose={closeModal!}
+        withCloseButton={false}
+        overlayColor={
+          theme.colorScheme === "dark"
+            ? theme.colors.dark[9]
+            : theme.colors.gray[2]
+        }
+        overlayOpacity={0.55}
+        overlayBlur={3}
       >
-        <NotificationsProvider
-          position="top-right"
-          limit={MAX_NUMBER_OF_NOTICE}
-          autoClose={TIME_BEFORE_NOTICE_CLOSES}
-        >
-          <Layout>
-            <div className={classes.container}>
-              <Header />
-              <Main />
-            </div>
-          </Layout>
-        </NotificationsProvider>
-      </MantineProvider>
-    </ColorSchemeProvider>
+        {content}
+      </Modal>
+      <div className={classes.container}>
+        <Header />
+        <Main />
+      </div>
+    </>
   );
 };
