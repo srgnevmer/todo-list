@@ -8,7 +8,6 @@ import { useLocalStorage } from "@mantine/hooks";
 import { NotificationsProvider } from "@mantine/notifications";
 import { Layout } from "../ui";
 import { ModalProvider } from "../context";
-import { MAX_NUMBER_OF_NOTICE, TIME_BEFORE_NOTICE_CLOSES } from "../constants";
 
 interface ProviderProps {
   children: JSX.Element;
@@ -33,11 +32,7 @@ export const Provider: FC<ProviderProps> = ({ children }) => {
         withNormalizeCSS
         withGlobalStyles
       >
-        <NotificationsProvider
-          position="top-right"
-          limit={MAX_NUMBER_OF_NOTICE}
-          autoClose={TIME_BEFORE_NOTICE_CLOSES}
-        >
+        <NotificationsProvider position="top-right" limit={3} autoClose={1500}>
           <ModalProvider>
             <Layout>{children}</Layout>
           </ModalProvider>
