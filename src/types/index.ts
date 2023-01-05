@@ -10,3 +10,11 @@ export interface Task {
   priority: Priority;
   category: Category;
 }
+
+export interface ModalContext {
+  isOpenModal: boolean;
+  content: JSX.Element | null;
+  openModal: () => void;
+  closeModal: () => void;
+  setContentToModal: (value: JSX.Element) => void;
+}
