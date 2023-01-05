@@ -5,8 +5,13 @@ import {
   MantineProvider,
   ColorSchemeProvider,
 } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 import { useLocalStorage } from "@mantine/hooks";
 import { Layout, Header, Main } from "../../ui";
+import {
+  MAX_NUMBER_OF_NOTICE,
+  TIME_BEFORE_NOTICE_CLOSES,
+} from "../../constants";
 
 export const App: FC = () => {
   const { classes } = useStyles();
@@ -28,12 +33,18 @@ export const App: FC = () => {
         withNormalizeCSS
         withGlobalStyles
       >
-        <Layout>
-          <div className={classes.container}>
-            <Header />
-            <Main />
-          </div>
-        </Layout>
+        <NotificationsProvider
+          position="top-right"
+          limit={MAX_NUMBER_OF_NOTICE}
+          autoClose={TIME_BEFORE_NOTICE_CLOSES}
+        >
+          <Layout>
+            <div className={classes.container}>
+              <Header />
+              <Main />
+            </div>
+          </Layout>
+        </NotificationsProvider>
       </MantineProvider>
     </ColorSchemeProvider>
   );
