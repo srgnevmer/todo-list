@@ -10,6 +10,7 @@ export const useStyles = createStyles((theme) => ({
   },
 
   header: {
+    userSelect: "none",
     width: "400px",
     padding: "8px",
     marginBottom: "25px",
