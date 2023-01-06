@@ -1,9 +1,17 @@
 import { FC, useContext } from "react";
-import { Modal, useMantineTheme } from "@mantine/core";
-import { useStyles } from "./styles";
-import { Header, Main } from "../../ui";
-import { ModalContext } from "../../context";
-import { ModalContext as IModalContext } from "../../types";
+import { createStyles, Modal, useMantineTheme } from "@mantine/core";
+import { ModalContext } from "../context";
+import { Header, Main } from "../components/ui";
+import { ModalContext as IModalContext } from "../types";
+
+export const useStyles = createStyles((theme) => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
+    backgroundColor: theme.colorScheme,
+  },
+}));
 
 export const App: FC = () => {
   const theme = useMantineTheme();

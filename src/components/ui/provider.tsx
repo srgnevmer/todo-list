@@ -6,8 +6,8 @@ import {
 } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { NotificationsProvider } from "@mantine/notifications";
-import { Layout } from "../ui";
-import { ModalProvider } from "../context";
+import { Layout } from "./index";
+import { ModalProvider } from "../../context";
 
 interface ProviderProps {
   children: JSX.Element;
