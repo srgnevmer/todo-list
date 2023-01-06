@@ -1,3 +1,5 @@
+import { doc } from "firebase/firestore";
+import { db } from "../firebase.config";
+
 export const MIN_WINDOW_WIDTH: number = 1024;
-export const TIME_BEFORE_NOTICE_CLOSES: number = 1500;
-export const MAX_NUMBER_OF_NOTICE: number = 3;
+export const TODOS_REF = doc(db, "todo", "list");
