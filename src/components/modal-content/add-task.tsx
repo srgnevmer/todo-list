@@ -1,17 +1,37 @@
 import { FC, useState, useContext, ChangeEvent } from "react";
-import { TextInput, Select, Button } from "@mantine/core";
+import { TextInput, Select, Button, createStyles } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { v4 as uuidv4 } from "uuid";
 import { getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
-import { useStyles } from "./styles";
 import {
   Task,
   Priority,
   Category,
   ModalContext as IModalContext,
-} from "../../../types";
-import { ModalContext } from "../../../context";
-import { TODOS_REF } from "../../../constants";
+} from "../../types";
+import { ModalContext } from "../../context";
+import { TODOS_REF } from "../../constants";
+
+const useStyles = createStyles((theme) => ({
+  marginBottom10: {
+    marginBottom: "10px",
+  },
+
+  marginBottom20: {
+    marginBottom: "20px",
+  },
+
+  wrapper: {
+    display: "flex",
+    justifyContent: "center",
+  },
+
+  buttons: {
+    width: "270px",
+    display: "flex",
+    justifyContent: "space-around",
+  },
+}));
 
 export const AddTask: FC = () => {
   const { classes } = useStyles();
