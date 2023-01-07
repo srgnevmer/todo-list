@@ -32,7 +32,7 @@ export const Provider: FC<ProviderProps> = ({ children }) => {
         withNormalizeCSS
         withGlobalStyles
       >
-        <NotificationsProvider position="top-right" limit={3} autoClose={1500}>
+        <NotificationsProvider position="top-right" limit={3} autoClose={1800}>
           <ModalProvider>
             <Layout>{children}</Layout>
           </ModalProvider>
