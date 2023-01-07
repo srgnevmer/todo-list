@@ -12,7 +12,7 @@ import {
 import { ModalContext } from "../../context";
 import { TODOS_REF } from "../../constants";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   marginBottom10: {
     marginBottom: "10px",
   },
@@ -66,7 +66,7 @@ export const AddTask: FC = () => {
     const task: Task = {
       id: uuidv4(),
       name: taskName,
-      isActive: false,
+      status: "active",
       date: new Date().getTime(),
       priority: priority as Priority,
       category: category as Category,
@@ -125,16 +125,10 @@ export const AddTask: FC = () => {
       />
       <div className={classes.wrapper}>
         <div className={classes.buttons}>
-          <Button
-            color="green"
-            size="md"
-            uppercase
-            type="submit"
-            onClick={saveTask}
-          >
+          <Button uppercase color="green" size="md" onClick={saveTask}>
             add task
           </Button>
-          <Button color="red" size="md" uppercase onClick={closeModal}>
+          <Button uppercase color="red" size="md" onClick={closeModal}>
             cancel
           </Button>
         </div>
