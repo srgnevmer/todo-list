@@ -1,16 +1,20 @@
 import { FC, useState, useContext, ChangeEvent } from "react";
 import { TextInput, Select, Button, createStyles } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
-import { v4 as uuidv4 } from "uuid";
-import { getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import {
   Task,
+  Status,
   Priority,
   Category,
   ModalContext as IModalContext,
 } from "../../types";
 import { ModalContext } from "../../context";
+import { getDoc, updateDoc } from "firebase/firestore";
 import { TODOS_REF } from "../../constants";
+import { showNotification } from "@mantine/notifications";
+
+interface EditTaskProps {
+  task: Task;
+}
 
 const useStyles = createStyles(() => ({
   marginBottom10: {
@@ -33,55 +37,52 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-export const AddTask: FC = () => {
+export const EditTask: FC<EditTaskProps> = ({ task }) => {
   const { classes } = useStyles();
-  const [taskName, setTaskName] = useState<string>("");
-  const [priority, setPriority] = useState<string | null>(null);
-  const [category, setCategory] = useState<string | null>(null);
+  const [taskName, setTaskName] = useState<string>(task.name);
+  const [status, setStatus] = useState<string | null>(task.status);
+  const [priority, setPriority] = useState<string | null>(task.priority);
+  const [category, setCategory] = useState<string | null>(task.category);
   const { closeModal } = useContext<Partial<IModalContext>>(ModalContext);
 
   const setName = (event: ChangeEvent<HTMLInputElement>): void => {
     setTaskName(event.target.value);
   };
 
-  const saveTask = async (): Promise<void> => {
-    if (!taskName.trim() || !priority || !category) {
-      showNotification({
-        color: "red",
-        disallowClose: true,
-        message: "Please fill in all fields",
-        styles: (theme) => ({
-          description: {
-            color: `${
-              theme.colorScheme === "light" ? theme.black : theme.white
-            }`,
-            fontSize: "18px",
-            fontWeight: "bold",
-          },
-        }),
-      });
-      return;
-    }
+  const saveChanges = async (): Promise<void> => {
+    const todosSnap = await getDoc(TODOS_REF);
+    const taskList: Task[] = todosSnap.data()?.tasks;
+    const indexSelectedTask: number = taskList.findIndex(
+      (item: Task) => item.id === task.id
+    );
 
-    const task: Task = {
-      id: uuidv4(),
+    const updatedTask: Task = {
+      id: task.id,
+      date: task.date,
       name: taskName,
-      status: "active",
-      date: new Date().getTime(),
+      status: status as Status,
       priority: priority as Priority,
       category: category as Category,
     };
 
-    const todosSnap = await getDoc(TODOS_REF);
-    if (todosSnap.exists()) {
-      updateDoc(TODOS_REF, {
-        tasks: arrayUnion(task),
-      });
-    } else {
-      setDoc(TODOS_REF, {
-        tasks: [task],
-      });
-    }
+    taskList.splice(indexSelectedTask, 1, updatedTask);
+
+    updateDoc(TODOS_REF, {
+      tasks: taskList,
+    });
+
+    showNotification({
+      color: "green",
+      disallowClose: true,
+      message: "The task was successfully updated",
+      styles: (theme) => ({
+        description: {
+          color: `${theme.colorScheme === "light" ? theme.black : theme.white}`,
+          fontSize: "18px",
+          fontWeight: "bold",
+        },
+      }),
+    });
 
     closeModal?.();
   };
@@ -95,6 +96,18 @@ export const AddTask: FC = () => {
         onChange={setName}
         placeholder="Task name"
         className={classes.marginBottom10}
+      />
+      <Select
+        size="md"
+        radius="md"
+        value={status}
+        onChange={setStatus}
+        placeholder="Select a priority"
+        className={classes.marginBottom10}
+        data={[
+          { value: "active", label: "Active" },
+          { value: "completed", label: "Completed" },
+        ]}
       />
       <Select
         size="md"
@@ -125,8 +138,8 @@ export const AddTask: FC = () => {
       />
       <div className={classes.wrapper}>
         <div className={classes.buttons}>
-          <Button uppercase color="green" size="md" onClick={saveTask}>
-            add task
+          <Button uppercase color="green" size="md" onClick={saveChanges}>
+            edit task
           </Button>
           <Button uppercase color="red" size="md" onClick={closeModal}>
             cancel

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { createStyles } from "@mantine/core";
-import { Priority } from "../types";
+import { Priority } from "../../types";
 
 interface PriorityBadgeProps {
   priority: Priority;

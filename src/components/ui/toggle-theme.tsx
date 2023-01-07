@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { createStyles, useMantineColorScheme } from "@mantine/core";
 
-export const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme) => ({
   switch: {
     cursor: "pointer",
     display: "flex",
