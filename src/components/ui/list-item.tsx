@@ -1,8 +1,13 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { createStyles, ActionIcon } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
+import { updateDoc, arrayRemove } from "firebase/firestore";
 import { formatDate } from "../../utils";
+import { TODOS_REF } from "../../constants";
+import { ModalContext } from "../../context";
 import { PriorityBadge, CategoryBadge } from "./index";
-import { Task } from "../../types";
+import { Task, ModalContext as IModalContext } from "../../types";
+import { EditTask } from "../modal-content";
 
 interface ListItemProps {
   item: Task;
@@ -14,6 +19,7 @@ const useStyles = createStyles((theme) => ({
     height: "56px",
     display: "flex",
     listStyle: "none",
+    userSelect: "none",
     borderRadius: theme.radius.md,
     backgroundColor: `${
       theme.colorScheme === "light"
@@ -68,7 +74,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   statusAndDate: {
-    width: "50%",
+    width: "60%",
     height: "100%",
     display: "flex",
     flexDirection: "column",
@@ -83,7 +89,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   categoryBadge: {
-    width: "50%",
+    width: "40%",
     height: "100%",
     display: "flex",
     justifyContent: "center",
@@ -93,7 +99,33 @@ const useStyles = createStyles((theme) => ({
 
 export const ListItem: FC<ListItemProps> = ({ item }) => {
   const { classes } = useStyles();
-  const { id, name, date, priority, category, isActive } = item;
+  const { id, name, date, status, priority, category } = item;
+  const { openModal, setContentToModal } =
+    useContext<Partial<IModalContext>>(ModalContext);
+
+  const editTask = (): void => {
+    setContentToModal?.(<EditTask task={item} />);
+    openModal?.();
+  };
+
+  const deleteTask = (): void => {
+    updateDoc(TODOS_REF, {
+      tasks: arrayRemove(item),
+    });
+
+    showNotification({
+      color: "green",
+      disallowClose: true,
+      message: "The task was successfully deleted",
+      styles: (theme) => ({
+        description: {
+          color: `${theme.colorScheme === "light" ? theme.black : theme.white}`,
+          fontSize: "18px",
+          fontWeight: "bold",
+        },
+      }),
+    });
+  };
 
   return (
     <li key={id} className={classes.container}>
@@ -102,7 +134,7 @@ export const ListItem: FC<ListItemProps> = ({ item }) => {
         <div className={classes.info}>
           <div className={classes.wrapper}>
             <div className={classes.statusAndDate}>
-              <p>Status: {isActive ? "complete" : "active"}</p>
+              <p>Status: {status}</p>
               <p>{formatDate(date)}</p>
             </div>
             <div className={classes.categoryBadge}>
@@ -112,7 +144,12 @@ export const ListItem: FC<ListItemProps> = ({ item }) => {
           <div className={classes.taskName}>{name}</div>
         </div>
         <div className={classes.buttons}>
-          <ActionIcon size="lg" variant="filled" color="blue">
+          <ActionIcon
+            size="lg"
+            variant="filled"
+            color="blue"
+            onClick={editTask}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -127,7 +164,12 @@ export const ListItem: FC<ListItemProps> = ({ item }) => {
               />
             </svg>
           </ActionIcon>
-          <ActionIcon size="lg" variant="filled" color="red">
+          <ActionIcon
+            size="lg"
+            variant="filled"
+            color="red"
+            onClick={deleteTask}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
