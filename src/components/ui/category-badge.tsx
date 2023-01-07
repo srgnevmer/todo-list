@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import { Badge, DefaultMantineColor } from "@mantine/core";
-import { Category } from "../types";
+import { Category } from "../../types";
 
 interface CategoryBadgeProps {
   category: Category;

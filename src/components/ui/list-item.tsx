@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { createStyles, ActionIcon } from "@mantine/core";
 import { formatDate } from "../../utils";
-import { PriorityBadge, CategoryBadge } from "../index";
+import { PriorityBadge, CategoryBadge } from "./index";
 import { Task } from "../../types";
 
 interface ListItemProps {

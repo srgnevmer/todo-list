@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { createStyles } from "@mantine/core";
-import { ToggleTheme } from "../index";
+import { ToggleTheme } from "./index";
 
 const useStyles = createStyles((theme) => ({
   container: {
