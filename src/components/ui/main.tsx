@@ -79,6 +79,7 @@ const useStyles = createStyles((theme) => ({
     flexGrow: 1,
     margin: "0px",
     padding: "10px 5px",
+    overflowY: "auto",
   },
 }));
 
