@@ -1,11 +1,11 @@
 import { FC, useState, useEffect, useContext } from "react";
 import { createStyles, Text, Button } from "@mantine/core";
 import { onSnapshot } from "firebase/firestore";
-import { AddTask } from "../modal-content";
+import { ListItem } from "./index";
 import { TODOS_REF } from "../../constants";
 import { ModalContext } from "../../context";
 import { getCurrentDate } from "../../utils";
-import { ListItem } from "./index";
+import { AddTask, DeleteAllTasks } from "../modal-content";
 import { Task, ModalContext as IModalContext } from "../../types";
 
 const useStyles = createStyles((theme) => ({
@@ -89,8 +89,13 @@ export const Main: FC = () => {
   const { openModal, setContentToModal } =
     useContext<Partial<IModalContext>>(ModalContext);
 
-  const showModal = (): void => {
+  const addTask = (): void => {
     setContentToModal?.(<AddTask />);
+    openModal?.();
+  };
+
+  const deleteAllTasks = (): void => {
+    setContentToModal?.(<DeleteAllTasks />);
     openModal?.();
   };
 
@@ -117,10 +122,10 @@ export const Main: FC = () => {
       <div className={classes.main}>
         <div className={classes.wrapper}>
           <div className={classes.buttons}>
-            <Button uppercase color="green" size="md" onClick={showModal}>
+            <Button uppercase color="green" size="md" onClick={addTask}>
               add task
             </Button>
-            <Button uppercase color="red" size="md">
+            <Button uppercase color="red" size="md" onClick={deleteAllTasks}>
               delete all
             </Button>
           </div>
