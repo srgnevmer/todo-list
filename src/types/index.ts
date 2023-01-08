@@ -4,6 +4,8 @@ export type Priority = "low" | "medium" | "high";
 
 export type Category = "chore" | "learning" | "mind care" | "body care";
 
+export type SortType = "default" | "high" | "low" | "active" | "completed";
+
 export interface Task {
   id: string;
   name: string;
