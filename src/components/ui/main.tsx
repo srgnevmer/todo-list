@@ -71,7 +71,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   buttons: {
-    width: "270px",
+    width: "280px",
     display: "flex",
     justifyContent: "space-around",
   },
