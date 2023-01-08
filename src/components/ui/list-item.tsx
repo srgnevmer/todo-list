@@ -2,7 +2,7 @@ import { FC, useContext } from "react";
 import { createStyles, ActionIcon } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { updateDoc, arrayRemove } from "firebase/firestore";
-import { formatDate } from "../../utils";
+import { formatDate, trimStr } from "../../utils";
 import { TODOS_REF } from "../../constants";
 import { ModalContext } from "../../context";
 import { PriorityBadge, CategoryBadge } from "./index";
@@ -68,8 +68,7 @@ const useStyles = createStyles((theme) => ({
     height: "100%",
     display: "flex",
     alignItems: "center",
-    paddingLeft: "20px",
-    fontSize: "26px",
+    fontSize: "22px",
     fontWeight: 600,
   },
 
@@ -141,7 +140,7 @@ export const ListItem: FC<ListItemProps> = ({ item }) => {
               <CategoryBadge category={category} />
             </div>
           </div>
-          <div className={classes.taskName}>{name}</div>
+          <div className={classes.taskName}>{trimStr(name, 20)}</div>
         </div>
         <div className={classes.buttons}>
           <ActionIcon
