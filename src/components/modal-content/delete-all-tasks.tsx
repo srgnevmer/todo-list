@@ -32,7 +32,7 @@ export const DeleteAllTasks: FC = () => {
   const { classes } = useStyles();
   const { closeModal } = useContext<Partial<IModalContext>>(ModalContext);
 
-  const deleteAllTasks = () => {
+  const deleteAllTasks = (): void => {
     deleteDoc(TODOS_REF);
 
     showNotification({

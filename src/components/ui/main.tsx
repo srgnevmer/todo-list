@@ -1,12 +1,12 @@
 import { FC, useState, useEffect, useContext } from "react";
-import { createStyles, Text, Button } from "@mantine/core";
+import { createStyles, Text, Button, Select } from "@mantine/core";
 import { onSnapshot } from "firebase/firestore";
 import { ListItem } from "./index";
 import { TODOS_REF } from "../../constants";
 import { ModalContext } from "../../context";
-import { getCurrentDate } from "../../utils";
+import { getCurrentDate, sortTasks } from "../../utils";
 import { AddTask, DeleteAllTasks } from "../modal-content";
-import { Task, ModalContext as IModalContext } from "../../types";
+import { Task, SortType, ModalContext as IModalContext } from "../../types";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -66,10 +66,17 @@ const useStyles = createStyles((theme) => ({
         : theme.colors.dark[3]
     }`,
     display: "flex",
+    justifyContent: "space-between",
     alignItems: "center",
   },
 
   buttons: {
+    width: "270px",
+    display: "flex",
+    justifyContent: "space-around",
+  },
+
+  test: {
     width: "270px",
     display: "flex",
     justifyContent: "space-around",
@@ -88,6 +95,7 @@ export const Main: FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const { openModal, setContentToModal } =
     useContext<Partial<IModalContext>>(ModalContext);
+  const [sortType, setSortType] = useState<string | null>("default");
 
   const addTask = (): void => {
     setContentToModal?.(<AddTask />);
@@ -104,10 +112,11 @@ export const Main: FC = () => {
       if (!doc.data()) {
         setTasks([]);
       } else {
-        setTasks(doc.data()?.tasks);
+        const listTasks: Task[] = doc.data()?.tasks;
+        setTasks(sortTasks(sortType as SortType, listTasks));
       }
     });
-  }, []);
+  }, [sortType]);
 
   return (
     <div className={classes.container}>
@@ -128,6 +137,24 @@ export const Main: FC = () => {
             <Button uppercase color="red" size="md" onClick={deleteAllTasks}>
               delete all
             </Button>
+          </div>
+          <div className={classes.test}>
+            <Select
+              size="md"
+              value={sortType}
+              onChange={setSortType}
+              placeholder="Sorting tasks"
+              data={[
+                {
+                  value: "default",
+                  label: "Default",
+                },
+                { value: "high", label: "From high to low" },
+                { value: "low", label: "From low to high" },
+                { value: "active", label: "First the active" },
+                { value: "completed", label: "First the completed" },
+              ]}
+            />
           </div>
         </div>
         <ul className={classes.list}>
