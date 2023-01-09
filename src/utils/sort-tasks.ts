@@ -4,7 +4,7 @@ const statusList: Status[] = ["active", "completed"];
 const priorityList: Priority[] = ["low", "medium", "high"];
 
 export const sortTasks = (sortType: SortType, list: Task[]): Task[] => {
-  let sortedList: Task[] = [];
+  const sortedList: Task[] = [];
 
   if (sortType === "high") {
     for (let index: number = 2; index >= 0; index -= 1) {
